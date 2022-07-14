@@ -35,8 +35,13 @@ public class Rung {
     @Override
     public String toString() {
         return "Rung{" +
-                "comment='" + comment + '\'' +
-                ", text='" + text + '\'' +
+                "comment='" + checkCommentExist(comment) + '\'' +
+                ", text='" + text + "'" +
                 '}';
+    }
+
+    private String checkCommentExist(String comment) {
+        if (comment != null && !comment.isEmpty()) return "exist";
+        else return "not exist";
     }
 }

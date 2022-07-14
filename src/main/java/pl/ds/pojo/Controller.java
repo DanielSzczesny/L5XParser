@@ -3,7 +3,9 @@ package pl.ds.pojo;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Controller {
 
@@ -243,5 +245,14 @@ public class Controller {
                 "timeSynchronize='" + timeSynchronize + '\'' + "\n\t" +
                 "ethernetPorts=" + ethernetPorts +
                 '}';
+    }
+
+    public Program getProgramByName(String name) {
+        for (Program program : programs) {
+            if (program.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
+                return program;
+            }
+        }
+        return null;
     }
 }

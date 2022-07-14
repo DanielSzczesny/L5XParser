@@ -16,6 +16,6 @@ public class Runner {
         RSLogix5000Content rsLogix5000Content = (RSLogix5000Content) unmarshaller
                 .unmarshal(new File("src/main/resources/Line1_RT_Cell1.L5X"));
 
-        System.out.println(rsLogix5000Content);
+        System.out.println(rsLogix5000Content.getController().getProgramByName("P0010_mainprogram"));
     }
 }
