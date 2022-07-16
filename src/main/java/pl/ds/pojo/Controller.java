@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class Controller {
 
@@ -247,12 +248,36 @@ public class Controller {
                 '}';
     }
 
-    public Program getProgramByName(String name) {
-        for (Program program : programs) {
-            if (program.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
-                return program;
+    /**
+     * Function return Program by part of Program name.
+     * @param name name of program you want to get
+     * @return Program or Optional.empty()
+     */
+    public Optional<Program> getProgramByName(String name) {
+        return getProgramByName(name, 1);
+    }
+
+    /**
+     * Function return Program by Program name.
+     * @param name name of program you want to get
+     * @param regex 0 - exact; 1 - contains
+     * @return Program or Optional.empty()
+     */
+    public Optional<Program> getProgramByName(String name, int regex) {
+        if (regex == 0) {
+            for (Program program : programs) {
+                if (program.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
+                    return Optional.of(program);
+                }
+            }
+        } else if (regex == 1) {
+            for (Program program : programs) {
+                if (program.getName().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT))) {
+                    return Optional.of(program);
+                }
             }
         }
-        return null;
+
+        return Optional.empty();
     }
 }

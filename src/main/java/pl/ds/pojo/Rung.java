@@ -1,15 +1,13 @@
 package pl.ds.pojo;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 public class Rung {
-    public Rung(String comment, String text) {
-        this.comment = comment;
-        this.text = text;
-    }
 
     private String comment;
     private String text;
+    private int number;
 
     public Rung() {
     }
@@ -30,6 +28,15 @@ public class Rung {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    @XmlAttribute(name = "Number")
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     @Override

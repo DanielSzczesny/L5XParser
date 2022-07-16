@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 public class Program {
 
@@ -83,5 +85,26 @@ public class Program {
                 "tags=" + tags + "\n\t" +
                 "routines=" + routines +
                 '}';
+    }
+
+    public Optional<Routine> getRoutineByName(String name) {
+        return getRoutineByName(name, 1);
+    }
+
+    public Optional<Routine> getRoutineByName(String name, int regex) {
+        if (regex == 0) {
+            for (Routine routine : routines) {
+                if (routine.getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
+                    return Optional.of(routine);
+                }
+            }
+        } else if (regex == 1) {
+            for (Routine routine : routines) {
+                if (routine.getName().toLowerCase(Locale.ROOT).contains(name.toLowerCase(Locale.ROOT))) {
+                    return Optional.of(routine);
+                }
+            }
+        }
+        return Optional.empty();
     }
 }
