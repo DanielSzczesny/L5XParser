@@ -2,17 +2,37 @@ package pl.ds.parser;
 
 import pl.ds.pojo.*;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Tester {
 
+    /**
+     * Default value for where = ""
+     * Default value for level = 2 - Rung
+     * @param check list of Strings to look for in controller programs
+     * @param content RSLogix5000Content
+     * @return HashMap(programName, HashMap(routineName, list of rungs))
+     */
     public static HashMap<String, HashMap<String, List<String>>> getMapOfErrors(List<String> check, 
                                                                                 RSLogix5000Content content) {
         return getMapOfErrors(check, "", content, 2);
     }
-    
+
+    /**
+     * Default value for level = 2 - Rung
+     * @param check list of Strings to look for in controller programs
+     * @param where String of in which program you want to serach (can by "" to search in whole controller)
+     * @param content RSLogix5000Content
+     * @return HashMap(programName, HashMap(routineName, list of rungs))
+     */
     public static HashMap<String, HashMap<String, List<String>>> getMapOfErrors(List<String> check, String where,
                                                                                 RSLogix5000Content content) {
         return getMapOfErrors(check, where, content, 2);
@@ -30,7 +50,7 @@ public class Tester {
                                                                    RSLogix5000Content content, int level) {
         List<String> rungList;
         HashMap<String, List<String>> routineMap;
-        HashMap<String, HashMap<String, List<String>>> result = new HashMap<>();
+        LinkedHashMap<String, HashMap<String, List<String>>> result = new LinkedHashMap<>();
         HashMap<String, List<String>> conditionMap = new HashMap<>();
         conditionMap.put(where, check);
         result.put("Conditions" + level,conditionMap);
@@ -82,7 +102,7 @@ public class Tester {
         }
     }
 
-    public static String parseResult(HashMap<String, HashMap<String, List<String>>> result) {
+    private static String parseResult(HashMap<String, HashMap<String, List<String>>> result) {
         StringBuilder builder = new StringBuilder();
         for (String program : result.keySet()) {
             boolean nameCondition = !program.equals("Conditions0")
@@ -113,7 +133,34 @@ public class Tester {
                 }
             }
         }
-
         return builder.toString();
+    }
+
+    public static void saveResultToTxTFile(HashMap<String, HashMap<String, List<String>>> result,
+                                           String path) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append(path)
+                .append('\\')
+                .append(LocalDateTime.now().getYear());
+        if (LocalDateTime.now().getMonthValue() < 10) builder.append("0")
+                .append(LocalDateTime.now().getMonthValue());
+        else builder.append(LocalDateTime.now().getMonthValue());
+        if (LocalDateTime.now().getDayOfMonth() < 10) builder.append("0")
+                .append(LocalDateTime.now().getDayOfMonth());
+        else builder.append(LocalDateTime.now().getDayOfMonth())
+                .append("_");
+        if (LocalDateTime.now().getHour() < 10) builder.append("0")
+                .append(LocalDateTime.now().getHour());
+        else builder.append(LocalDateTime.now().getHour());
+        if (LocalDateTime.now().getMinute() < 10) builder.append("0")
+                .append(LocalDateTime.now().getMinute());
+        else builder.append(LocalDateTime.now().getMinute())
+                .append("_RaportL5K")
+                .append(".txt");
+
+        File fileToSave = new File(builder.toString());
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave));
+        writer.write(parseResult(result));
     }
 }

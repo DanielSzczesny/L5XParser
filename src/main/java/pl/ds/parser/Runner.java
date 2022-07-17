@@ -6,12 +6,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Runner {
-    public static void main(String[] args) throws JAXBException {
+    public static void main(String[] args) throws JAXBException, IOException {
 
         JAXBContext context = JAXBContext.newInstance(RSLogix5000Content.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -21,15 +22,14 @@ public class Runner {
 
 
         List<String> conditions = new ArrayList<>();
-//        conditions.add("HTL");
-//        conditions.add("HTR");
-        conditions.add("DryWt");
-        conditions.add("WetWt");
-        conditions.add("Left");
-        conditions.add("Right");
+        conditions.add("HTL");
+        conditions.add("HTR");
         conditions.add("RTL");
         conditions.add("RTR");
 
-        System.out.println(Tester.parseResult(Tester.getMapOfErrors(conditions, rsLogix5000Content)));
+
+        String path = "src/main/resources/Reports";
+
+        Tester.saveResultToTxTFile(Tester.getMapOfErrors(conditions, rsLogix5000Content), path);
     }
 }
