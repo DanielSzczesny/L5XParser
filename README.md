@@ -7,7 +7,7 @@ Main reason for creating this project was to find typos in the PLC code
 - [x] Parse XML to Java Objects
 - [x] Prepare basic mapping of typos
 - [x] Save result to .txt file
-- [ ] Prepare advanced mappiing of typos
+- [ ] Prepare advanced mapping of typos
 - [ ] User interface
 
 [^1]:MIT License
