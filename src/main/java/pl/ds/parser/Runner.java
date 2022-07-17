@@ -10,26 +10,47 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 public class Runner {
     public static void main(String[] args) throws JAXBException, IOException {
 
+        String fileName = prepareInputFile();
+        File readFile = new File("C:\\L5K\\" + fileName);
+        String outputPath = "C:\\L5K\\Reports\\";
+        List<String> conditions = prepareConditionList();
+
         JAXBContext context = JAXBContext.newInstance(RSLogix5000Content.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
-        RSLogix5000Content rsLogix5000Content = (RSLogix5000Content) unmarshaller
-                .unmarshal(new File("src/main/resources/Line1_RT_Cell1.L5X"));
+        if (readFile.isFile() && readFile.canRead()) {
+            RSLogix5000Content rsLogix5000Content = (RSLogix5000Content) unmarshaller
+                    .unmarshal(readFile);
+            Tester.saveResultToTxTFile(Tester.getMapOfErrors(conditions, rsLogix5000Content), outputPath);
+        } else System.out.println("File not exist" + readFile.getAbsolutePath());
+    }
 
+    private static List<String> prepareConditionList() {
+        List<String> result = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter parameters which have to be checked one by one. Insert exit to stop");
 
-        List<String> conditions = new ArrayList<>();
-        conditions.add("HTL");
-        conditions.add("HTR");
-        conditions.add("RTL");
-        conditions.add("RTR");
+        while (true) {
+            String tempString = scanner.next().trim();
+            if (tempString.isBlank() || tempString.isEmpty() || tempString.equals("exit")) return result;
+            else {
+                result.add(tempString);
+                System.out.println(result.size());
+            }
+        }
+    }
 
+    private static String prepareInputFile() {
+        String filePath;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter file name in folder C:\\L5K\\");
+        filePath = scanner.next().trim();
 
-        String path = "src/main/resources/Reports";
-
-        Tester.saveResultToTxTFile(Tester.getMapOfErrors(conditions, rsLogix5000Content), path);
+        return filePath;
     }
 }

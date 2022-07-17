@@ -38,6 +38,11 @@ public class Tester {
         return getMapOfErrors(check, where, content, 2);
     }
 
+    public static HashMap<String, HashMap<String, List<String>>> getMapOfErrors(List<String> check,
+                                                                                RSLogix5000Content content, int level) {
+        return getMapOfErrors(check, "", content, level);
+    }
+
     /**
      *
      * @param check list of Strings to look for in controller programs
