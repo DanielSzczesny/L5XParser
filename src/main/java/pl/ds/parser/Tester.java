@@ -67,6 +67,7 @@ public class Tester {
             routineMap = new HashMap<>();
             for (Routine routine : program.getRoutines()) {
                 rungList = new ArrayList<>();
+                if (!routine.getType().equals("RLL")) routine.setRungs(new ArrayList<>());
                 for (Rung rung : routine.getRungs()) {
                     switch (level) {
                         case 0:
@@ -131,14 +132,16 @@ public class Tester {
                 else builder.append("\tIn programs which contains - ")
                         .append(routine)
                         .append('\n');
-                for (int i = 0; i < result.get(program).get(routine).size(); i++) {
-                    if (nameCondition)
-                        builder.append("\t\t\tRung - ")
+                if (!result.get(program).get(routine).isEmpty()) {
+                    for (int i = 0; i < result.get(program).get(routine).size(); i++) {
+                        if (nameCondition)
+                            builder.append("\t\t\tRung - ")
+                                    .append(result.get(program).get(routine).get(i))
+                                    .append('\n');
+                        else builder.append("\t\tFind - ")
                                 .append(result.get(program).get(routine).get(i))
-                                .append('\n');
-                    else builder.append("\t\tFind - ")
-                            .append(result.get(program).get(routine).get(i))
-                            .append("\n\n");
+                                .append("\n\n");
+                    }
                 }
             }
         }
@@ -149,7 +152,6 @@ public class Tester {
                                            String path) throws IOException {
         StringBuilder builder = new StringBuilder();
         builder.append(path)
-                .append('\\')
                 .append(LocalDateTime.now().getYear());
         if (LocalDateTime.now().getMonthValue() < 10) builder.append("0")
                 .append(LocalDateTime.now().getMonthValue());
@@ -170,6 +172,9 @@ public class Tester {
         File fileToSave = new File(builder.toString());
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave));
-        writer.write(parseResult(result));
+        String parseResult = parseResult(result);
+        writer.write(parseResult);
+        writer.flush();
+        writer.close();
     }
 }

@@ -8,7 +8,6 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,7 +15,7 @@ public class Runner {
     public static void main(String[] args) throws JAXBException, IOException {
 
         String fileName = prepareInputFile();
-        File readFile = new File("C:\\L5K\\" + fileName);
+        File readFile = new File(fileName);
         String outputPath = "C:\\L5K\\Reports\\";
         List<String> conditions = prepareConditionList();
 
@@ -37,7 +36,7 @@ public class Runner {
 
         while (true) {
             String tempString = scanner.next().trim();
-            if (tempString.isBlank() || tempString.isEmpty() || tempString.equals("exit")) return result;
+            if (tempString.isEmpty() || tempString.equals("exit")) return result;
             else {
                 result.add(tempString);
                 System.out.println(result.size());
@@ -48,9 +47,10 @@ public class Runner {
     private static String prepareInputFile() {
         String filePath;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter file name in folder C:\\L5K\\");
+        System.out.println("Enter .L5X file name absolute path");
         filePath = scanner.next().trim();
 
-        return filePath;
+        if (filePath.contains(".L5X")) return filePath;
+        else return prepareInputFile();
     }
 }
