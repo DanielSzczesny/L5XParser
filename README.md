@@ -1,5 +1,5 @@
-# L5KParser[^1]
-Java L5K Parser for Logix 5000 PLC's
+# L5XParser[^1]
+Java L5X Parser for Logix 5000 PLC's
 
 Main reason for creating this project was to find typos in the PLC code
 
