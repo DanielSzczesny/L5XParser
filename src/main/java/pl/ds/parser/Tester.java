@@ -149,9 +149,10 @@ public class Tester {
     }
 
     public static void saveResultToTxTFile(HashMap<String, HashMap<String, List<String>>> result,
-                                           String path) throws IOException {
+                                           String path, String controllerName) throws IOException {
         StringBuilder builder = new StringBuilder();
-        builder.append(path)
+        builder.append(controllerName)
+                .append("_")
                 .append(LocalDateTime.now().getYear());
         if (LocalDateTime.now().getMonthValue() < 10) builder.append("0")
                 .append(LocalDateTime.now().getMonthValue());

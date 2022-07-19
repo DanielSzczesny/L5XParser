@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Main-Class: pl.ds.parser.Runner
+Class-Path: activation-1.1.1.jar txw2-2.3.1.jar stax-ex-1.8.jar jaxb-run
+ time-2.3.1.jar javax.activation-api-1.2.0.jar jaxb-api-2.3.1.jar istack
+ -commons-runtime-3.0.7.jar FastInfoset-1.2.15.jar
+
