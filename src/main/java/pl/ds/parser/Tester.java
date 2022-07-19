@@ -151,7 +151,14 @@ public class Tester {
     public static void saveResultToTxTFile(HashMap<String, HashMap<String, List<String>>> result,
                                            String path, String controllerName) throws IOException {
         StringBuilder builder = new StringBuilder();
-        builder.append(controllerName)
+
+        String directory = new File(path).getParentFile().toURI().getPath();
+        directory += "Reports/";
+
+        new File(directory).mkdirs();
+
+        builder.append(directory)
+                .append(controllerName)
                 .append("_")
                 .append(LocalDateTime.now().getYear());
         if (LocalDateTime.now().getMonthValue() < 10) builder.append("0")

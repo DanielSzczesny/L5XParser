@@ -3,6 +3,18 @@ Java L5X Parser for Logix 5000 PLC's
 
 Main reason for creating this project was to find typos in the PLC code
 
+To start application
+
+```java
+java -jar JarFileName.jar
+```
+
+Application will search a current folder in case of .L5X and .csv files which names match 
+e.g. PLC_Code.L5X and PLC_Code.csv. <br />
+For each pair report will be generated in folder Reports.
+
+
+
 ## TODO
 - [x] Parse XML to Java Objects
 - [x] Prepare basic mapping of typos
