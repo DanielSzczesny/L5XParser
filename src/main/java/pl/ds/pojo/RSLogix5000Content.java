@@ -2,6 +2,9 @@ package pl.ds.pojo;
 
 import javax.xml.bind.annotation.*;
 
+/**
+ * Class for main component in L5X files
+ */
 @XmlRootElement(name = "RSLogix5000Content")
 public class RSLogix5000Content {
 

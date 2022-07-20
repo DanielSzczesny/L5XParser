@@ -91,6 +91,14 @@ public class Tester {
         return result;
     }
 
+    /**
+     * Add Rung to list when any pair of condition are matched.
+     * @param check list of conditions to check
+     * @param rungList list of rungs
+     * @param routineMap map of routines (routine name, list of rungs) - result
+     * @param routine current routine
+     * @param rung current rung
+     */
     private static void checkOccurrences(List<String> check, List<String> rungList,
                                          HashMap<String, List<String>> routineMap, Routine routine, Rung rung) {
         if (check.size() > 1) {
@@ -109,6 +117,11 @@ public class Tester {
         }
     }
 
+    /**
+     * Change result from L5X parser to text report
+     * @param result result of parsing L5K file
+     * @return report of parsing L5X
+     */
     private static String parseResult(HashMap<String, HashMap<String, List<String>>> result) {
         StringBuilder builder = new StringBuilder();
         for (String program : result.keySet()) {
@@ -148,14 +161,23 @@ public class Tester {
         return builder.toString();
     }
 
-    public static void saveResultToTxTFile(HashMap<String, HashMap<String, List<String>>> result,
+    /**
+     * Save report to path/Reports directory as .txt file
+     * @param result result to save
+     * @param path path to directory where files should be saved
+     * @param controllerName name of controller for file name creation
+     * @throws IOException Exception of File/Folder creation
+     */
+    public static void saveReportAsTxtFile(HashMap<String, HashMap<String, List<String>>> result,
                                            String path, String controllerName) throws IOException {
         StringBuilder builder = new StringBuilder();
 
-        String directory = new File(path).getParentFile().toURI().getPath();
+        String directory = new File(path).toURI().getPath();
         directory += "Reports/";
 
-        new File(directory).mkdirs();
+        boolean mkdirs = new File(directory).mkdirs();
+        if (mkdirs) System.out.println("Directory created");
+        else System.out.println("Directory already exist");
 
         builder.append(directory)
                 .append(controllerName)
