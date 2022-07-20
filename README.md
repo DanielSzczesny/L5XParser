@@ -1,4 +1,4 @@
-# L5XParser[^1]
+# L5XParser[^1] [![Java CI with Maven](https://github.com/DanielSzczesny/L5XParser/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/DanielSzczesny/L5XParser/actions/workflows/maven.yml)
 Java L5X Parser for Logix 5000 PLC's
 
 Main reason for creating this project was to find typos in the PLC code
