@@ -26,23 +26,26 @@ public class Parser {
      */
     public static void parseL5X(Unmarshaller unmarshaller, String mainDirPath,
                                 File[] listOfL5XFiles, File[] listOfCsvFile) throws JAXBException, IOException {
-        assert listOfL5XFiles != null;
-        for (File file : listOfL5XFiles) {
-            String fileName = file.getName().substring(0, file.getName().length() - 4);
-            List<String> conditions = new ArrayList<>();
-            assert listOfCsvFile != null;
-            for (File csv : listOfCsvFile) {
-                if (csv.getName().contains(fileName)) {
-                    conditions = prepareConditionsFromFile(csv);
-                    break;
+        if (listOfL5XFiles != null) {
+            for (File file : listOfL5XFiles) {
+                String fileName = file.getName().substring(0, file.getName().length() - 4);
+                List<String> conditions = new ArrayList<>();
+                assert listOfCsvFile != null;
+                for (File csv : listOfCsvFile) {
+                    if (csv.getName().contains(fileName)) {
+                        conditions = prepareConditionsFromFile(csv);
+                        break;
+                    }
+                }
+                if (conditions.size() == 0) conditions = prepareConditionList(file.getName());
+                if (file.canRead() && file.isFile()) {
+                    RSLogix5000Content rsLogix5000Content = (RSLogix5000Content) unmarshaller.unmarshal(file);
+                    Tester.saveReportAsTxtFile(Tester.getMapOfErrors(conditions, rsLogix5000Content),
+                            mainDirPath, rsLogix5000Content.getController().getName());
                 }
             }
-            if (conditions.size() == 0) conditions = prepareConditionList(file.getName());
-            if (file.canRead() && file.isFile()) {
-                RSLogix5000Content rsLogix5000Content = (RSLogix5000Content) unmarshaller.unmarshal(file);
-                Tester.saveReportAsTxtFile(Tester.getMapOfErrors(conditions, rsLogix5000Content),
-                        mainDirPath, rsLogix5000Content.getController().getName());
-            }
+        } else {
+            System.out.println("No L5X Files in current folder");
         }
     }
 
