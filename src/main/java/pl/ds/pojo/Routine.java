@@ -10,8 +10,19 @@ public class Routine {
     private String name;
     private String type;
     private List<Rung> rungs;
+    private List<Rung> stRungs;
 
     public Routine() {
+    }
+
+    @XmlElement(name = "Rung")
+    @XmlElementWrapper(name = "STContent")
+    public List<Rung> getStRungs() {
+        return stRungs;
+    }
+
+    public void setStRungs(List<Rung> stRungs) {
+        this.stRungs = stRungs;
     }
 
     @XmlAttribute(name = "Name")
